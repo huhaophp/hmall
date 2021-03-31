@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\LoginRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\LoginRequest;
 
 class AuthController extends Controller
 {
     /**
      * 后台面板登录视图
      *
-     * @return \Illuminate\Contracts\View\View
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function show()
+    public function show(Request $request)
     {
-        return view('backend.auth.login');
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('backend:home');
+        } else {
+            return view('backend.auth.login');
+        }
     }
 
     /**
@@ -30,6 +36,7 @@ class AuthController extends Controller
     {
         $name     = $request->input('name');
         $password = $request->input('password');
+        $remember = (bool) $request->input('remember');
 
         $user = User::query()->where('name', $name)->first();
         if (!$user) {
@@ -39,7 +46,7 @@ class AuthController extends Controller
             return back()->withErrors('账号或密码错误');
         }
 
-        Auth::guard('web')->login($user);
+        Auth::guard('web')->login($user, $remember);
 
         return redirect()->route('backend:home')->with('success', '登录成功');
     }
@@ -53,7 +60,7 @@ class AuthController extends Controller
     {
         Auth::guard('web')->logout();
 
-        return redirect()->route('backend:auth:show')->withErrors("登录失效");
+        return redirect()->route('backend:auth:show')->with('success', '退出成功');
     }
 }
 

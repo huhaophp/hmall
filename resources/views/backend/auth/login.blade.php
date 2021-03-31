@@ -33,6 +33,7 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
+
                         <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                         <div class="col-lg-6">
                             <div class="p-5">
@@ -52,16 +53,22 @@
                                     </div>
                                     <div class="form-group">
                                         @foreach($errors->all() as $error)
-                                            <div class="alert alert-danger">{{ $error }}</div>
+                                            @component('components.alert', ['type' => 'danger', 'message' => $error])
+                                            @endcomponent
                                         @endforeach
+                                        @if(session('success'))
+                                            @component('components.alert', ['type' => 'success', 'message' => session('success')])
+                                            @endcomponent
+                                        @endif
                                     </div>
-{{--                                    <div class="form-group">--}}
-{{--                                        <div class="custom-control custom-checkbox small">--}}
-{{--                                            <input type="checkbox" class="custom-control-input" id="customCheck">--}}
-{{--                                            <label class="custom-control-label" for="customCheck">Remember--}}
-{{--                                                Me</label>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck"
+                                                   name="remember" value="1">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
                                     <button class="btn btn-primary btn-user btn-block">
                                         登录
                                     </button>

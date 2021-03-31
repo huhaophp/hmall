@@ -25,8 +25,8 @@ class LoginRequest extends FormRequest
     {
         if ($this->method === self::METHOD_POST) {
             return [
-                'name'     => 'required',
-                'password' => 'required'
+                'name'     => 'required|string',
+                'password' => 'required|string'
             ];
         } else {
             return [];

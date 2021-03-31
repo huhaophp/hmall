@@ -13,8 +13,13 @@
         @include('backend.layouts.topbar')
         <!-- Begin Page Content -->
             <div class="container-fluid">
+                @foreach($errors->all() as $error)
+                    @component('components.alert', ['type' => 'danger', 'message' => $error])
+                    @endcomponent
+                @endforeach
                 @if(session('success'))
-                    <div class="alert alert-success">欢迎登陆</div>
+                    @component('components.alert', ['type' => 'success', 'message' => session('success')])
+                    @endcomponent
                 @endif
                 @yield('content')
             </div>
@@ -50,7 +55,11 @@
             <div class="modal-body">如果您准备结束当前会话，请在下面选择“注销”</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
-                <a class="btn btn-primary" href="login.html">退出</a>
+                <form action="{{ route('backend:auth:destroy') }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <button class="btn btn-primary">退出</button>
+                </form>
             </div>
         </div>
     </div>
