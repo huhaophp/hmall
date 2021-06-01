@@ -45,11 +45,11 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                               placeholder="请输入登陆账号" name="name">
+                                               placeholder="请输入登陆账号" name="name" value="tmall">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="请输入登陆密码" name="password">
+                                               id="exampleInputPassword" placeholder="请输入登陆密码" name="password" value="123456">
                                     </div>
                                     <div class="form-group">
                                         @foreach($errors->all() as $error)
